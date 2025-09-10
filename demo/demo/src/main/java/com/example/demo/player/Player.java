@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 //creates table in db
 @Entity //for hibernate
 @Table(name = "player_data")
-@JsonPropertyOrder({"player_name", "country", "pr_points", "earnings"}) // defines order of fields in JSON request
+@JsonPropertyOrder({"player_name", "country", "pr_points", "earnings", "country_image_url", "profile_image_url"}) // defines order of fields in JSON request
 public class Player {
     @Id
     @Column(name = "player_name", unique = true)
@@ -18,16 +18,20 @@ public class Player {
     private String country;
     private Integer pr_points;
     private Integer earnings;
+    private String country_image_url;
+    private String profile_image_url;
 
 
     public Player(){
     }
 
-    public Player(String player_name, String country, Integer pr_points, Integer earnings) {
+    public Player(String player_name, String country, Integer pr_points, Integer earnings, String country_image_url, String profile_image_url) {
         this.name = player_name;
         this.country = country;
         this.pr_points = pr_points;
         this.earnings = earnings;
+        this.country_image_url = country_image_url;
+        this.profile_image_url = profile_image_url;
     }
 
     public String getPlayer_name() {
@@ -46,6 +50,9 @@ public class Player {
         return earnings;
     }
 
+    public String getCountryImageUrl(){return country_image_url;}
+
+    public String getProfileImageUrl(){return profile_image_url;}
 
     public void setPlayer_name(String player_name) {
         this.name = player_name;
@@ -62,6 +69,11 @@ public class Player {
     public void setEarnings(Integer earnings) {
         this.earnings = earnings;
     }
+
+    public void setCountryImageUrl(String country_image_url){this.country_image_url = country_image_url;}
+
+    public void setProfileImageUrl(String profile_image_url){this.profile_image_url = profile_image_url;}
+
 
     //     Run time polymorphism(dynamic polymorphism)
     @Override

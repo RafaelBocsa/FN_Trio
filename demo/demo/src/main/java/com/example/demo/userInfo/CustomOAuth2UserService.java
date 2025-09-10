@@ -36,9 +36,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String user_id = String.valueOf(rawUserId);
         String username = oauthUser.getAttribute("name");
         String name = oauthUser.getAttribute("name");
-        String player1 = "null";
-        String player2 = "null";
-        String player3 = "null";
+        String player1 = null;
+        String player2 = null;
+        String player3 = null;
 
         System.out.println("User ID: " + user_id);
         System.out.println("Username: " + username);

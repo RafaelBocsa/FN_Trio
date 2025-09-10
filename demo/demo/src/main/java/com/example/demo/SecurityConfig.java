@@ -1,9 +1,11 @@
 package com.example.demo;
 
 import com.example.demo.userInfo.CustomOAuth2UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,25 +21,58 @@ public class SecurityConfig {
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService; // Ensure this is injected
 
-    @Bean
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
-        //all security related configurations
-        http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
-                .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(customOAuth2UserService)
-                        )
-                        .successHandler((request, response, authentication) -> {
-                                    response.sendRedirect("http://localhost:5173/dashboard");
-                                })
-                )
-//                        .defaultSuccessUrl("http://localhost:5173/dashboard", true))
-                .logout().logoutUrl("/logout").logoutSuccessUrl("http://localhost:5173/");
-        ;
+//    @Bean
+//    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception{
+//        //all security related configurations
+//        http.csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
+//                .oauth2Login(oauth2 -> oauth2
+//                        .userInfoEndpoint(userInfo -> userInfo
+//                                .userService(customOAuth2UserService)
+//                        )
+//                        .successHandler((request, response, authentication) -> {
+//                                    response.sendRedirect("http://localhost:5173/dashboard");
+//                                })
+//
+//                )
+//                .exceptionHandling(ex ->
+//                        ex.authenticationEntryPoint((request, response, authException) -> {
+//                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+//                        })
+//                )
+////                        .defaultSuccessUrl("http://localhost:5173/dashboard", true))
+//                .logout().logoutUrl("/logout").logoutSuccessUrl("http://localhost:5173/");
+//        ;
+//
+//        // change success url to 8080/api/v1/users/create to create new user(post req) in db using 8080/user-info stuff
+//        // then direct to 5173/dashboard to see site
+//        return http.build();
+//    }
 
-        // change success url to 8080/api/v1/users/create to create new user(post req) in db using 8080/user-info stuff
-        // then direct to 5173/dashboard to see site
+    @Bean
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, CustomOAuth2UserService customOAuth2UserService) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults()) // <--- IMPORTANT: enable CORS support
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/v1/**").authenticated()
+                        .anyRequest().permitAll()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
+                        .successHandler((request, response, authentication) -> {
+                            response.sendRedirect("http://localhost:5173/dashboard");
+                        })
+                ).exceptionHandling(ex ->
+                        ex.authenticationEntryPoint((request, response, authException) -> {
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                        })
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("http://localhost:5173/")
+                );
+
         return http.build();
     }
 

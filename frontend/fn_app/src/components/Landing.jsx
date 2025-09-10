@@ -12,7 +12,7 @@ const Landing = () => {
     <div className=" flex flex-col min-h-screen justify-center items-center white ">
       <div className="border-2 border-[#202022] p-6  rounded-md">
         <div className=" flex flex-col items-center">
-          <img src="/FNCSBlack.png" className="w-26 p-2" />
+          <img src="/FNCSWhite.png" className="w-26 p-2" />
           <h2 className="text-4xl p-2">Welcome to FNCS Trio Builder</h2>
           <h2 className="py-4 ">Start building your dream FNCS trio</h2>
 
@@ -24,12 +24,12 @@ const Landing = () => {
               <svg
                 stroke="currentColor"
                 fill="currentColor"
-                stroke-width="0"
+                strokeWidth="0"
                 version="1.1"
                 x="0px"
                 y="0px"
                 viewBox="0 0 48 48"
-                enable-background="new 0 0 48 48"
+                enableBackground="new 0 0 48 48"
                 height="1em"
                 width="1em"
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +65,7 @@ const Landing = () => {
               <svg
                 stroke="currentColor"
                 fill="currentColor"
-                stroke-width="0"
+                strokeWidth="0"
                 viewBox="0 0 1024 1024"
                 height="1em"
                 width="1em"

@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 import axios from "axios";
-import Content from "./Content";
+import { Outlet } from "react-router-dom";
+
+export const UserContext = createContext();
 
 const Dashboard = () => {
-  const [user, setUser] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
     axios
       .get("http://localhost:8080/user-info", { withCredentials: true })
       .then((response) => {
-        setUser(response.data);
+        setUserInfo(response.data);
       })
       .catch((error) => {
         console.error("ERROR ", error);
@@ -18,27 +21,29 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
-      {user ? (
+    <UserContext.Provider value={{ userInfo, setUserInfo }}>
+      {userInfo ? (
         <div className="">
           <Navbar
-            name={user.name}
-            email={user.email}
-            picture={user.picture || user.avatar_url}
+            name={userInfo.name}
+            email={userInfo.email}
+            picture={userInfo.picture || userInfo.avatar_url}
           />
-          <Content userId={user.sub || user.id} />
+          <div className="p-4">
+            <Outlet />
+          </div>
         </div>
       ) : (
         <div className="flex justify-between p-10">
-          <a href="/">
+          <Link to="/">
             <div className="flex items-center">
-              <img src="/FNCSBlack.png" alt="" className="h-14" />
+              <img src="/FNCSWhite.png" alt="" className="h-14" />
             </div>
-          </a>
+          </Link>
           <p>Loading user data...</p>
         </div>
       )}
-    </div>
+    </UserContext.Provider>
   );
 };
 

@@ -1,12 +1,11 @@
 package com.example.demo.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/v1/user")
@@ -31,4 +30,20 @@ public class UserController {
         }
 
     }
+
+    @PutMapping(path = "{userId}")
+    public void updateTrio(
+            @PathVariable("userId") String userId,
+            @RequestParam(required = false) String player1,
+            @RequestParam(required = false) String player2,
+            @RequestParam(required = false) String player3
+    ){
+        userService.updateTrio(userId, player1, player2, player3);
+    }
+
+    @DeleteMapping(path = "{userId}")
+    public void deleteUser(@PathVariable("userId") String userId){
+        userService.deleteUser(userId);
+    }
+
 }
