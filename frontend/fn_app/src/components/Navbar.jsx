@@ -18,8 +18,23 @@ function userSettings() {
     </Popover>
   );
 }
+const deleteAccount = async (id) => {
+  //   try {
+  //   await axios.delete(
+  //     `http://localhost:8080/api/v1/user/${
+  //       userInfo.id
+  //     }?player${index}=${null}`,
+  //     {},
+  //     { withCredentials: true }
+  //   ).then(() => navigate("/"));
 
-const Navbar = ({ name, email, picture }) => {
+  // } catch (error) {
+  //   console.error("Error removing player:", error);
+  // }
+  console.log("test");
+};
+
+const Navbar = ({ name, email, picture, userId }) => {
   return (
     <div className="flex justify-between p-12 ">
       <div className="flex justify-between w-full items-center">
@@ -80,12 +95,12 @@ const Navbar = ({ name, email, picture }) => {
                     </Link>
                   </div>
                   <div className="p-3">
-                    <Link
-                      className="block rounded-lg py-2 px-3 transition hover:bg-white/5 text-red-400 hover:text-red-400 lg:text-white"
-                      to={"http://localhost:8080/logout"}
+                    <div
+                      className="block rounded-lg py-2 px-3 transition hover:bg-white/5 text-red-400 hover:text-red-400 lg:text-white cursor-pointer"
+                      onClick={() => deleteAccount(userId)}
                     >
                       <p className="font-semibold ">Delete Account</p>
-                    </Link>
+                    </div>
                   </div>
                 </PopoverPanel>
               </Popover>

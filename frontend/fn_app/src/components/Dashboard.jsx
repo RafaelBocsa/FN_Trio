@@ -28,6 +28,7 @@ const Dashboard = () => {
             name={userInfo.name}
             email={userInfo.email}
             picture={userInfo.picture || userInfo.avatar_url}
+            userId={userInfo.id || userInfo.sub}
           />
           <div className="p-4">
             <Outlet />
