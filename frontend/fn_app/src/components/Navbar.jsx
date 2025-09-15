@@ -39,12 +39,12 @@ const Navbar = ({ name, email, picture, userId }) => {
     <div className="flex justify-between p-12 ">
       <div className="flex justify-between w-full items-center">
         <div className="flex gap-12">
-          <Link href="/dashboard">
-            <div className="flex items-center hover:opacity-50">
+          <div>
+            <div className="flex items-center hover:opacity-50 font-medium">
               <img src="/FNCSWhite.png" alt="" className="h-14" />
               <h2 className="hidden sm:block text-xl ">Trio Zone</h2>
             </div>
-          </Link>
+          </div>
         </div>
 
         {name || email || picture ? (
