@@ -78,13 +78,6 @@ const Navbar = ({ name, email, picture, userId }) => {
                       <p className="font-semibold text-white">Name</p>
                       <p className="text-white/50">{name}</p>
                     </Link>
-                    <Link
-                      className="block rounded-lg py-2 px-3 transition hover:bg-white/5"
-                      href="#"
-                    >
-                      <p className="font-semibold text-white">Reports</p>
-                      <p className="text-white/50">Keep track of your growth</p>
-                    </Link>
                   </div>
                   <div className="p-3">
                     <Link
