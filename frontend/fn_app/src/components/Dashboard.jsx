@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
-import axios from "axios";
+import api from "../api/axios";
 import { Outlet } from "react-router-dom";
 
 export const UserContext = createContext();
@@ -9,15 +9,20 @@ export const UserContext = createContext();
 const Dashboard = () => {
   const [userInfo, setUserInfo] = useState(null);
 
+  const getUserInfo = async () => {
+    try {
+      const response = await api.get(
+        `${import.meta.env.VITE_API_URL}/user-info`
+      );
+      setUserInfo(response.data);
+    } catch (error) {
+      console.error("ERROR ", error);
+      return null;
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/user-info", { withCredentials: true })
-      .then((response) => {
-        setUserInfo(response.data);
-      })
-      .catch((error) => {
-        console.error("ERROR ", error);
-      });
+    getUserInfo();
   }, []);
 
   return (
@@ -25,10 +30,10 @@ const Dashboard = () => {
       {userInfo ? (
         <div className="">
           <Navbar
+            username={userInfo.username}
             name={userInfo.name}
             email={userInfo.email}
             picture={userInfo.picture || userInfo.avatar_url}
-            userId={userInfo.id || userInfo.sub}
           />
           <div className="p-4">
             <Outlet />

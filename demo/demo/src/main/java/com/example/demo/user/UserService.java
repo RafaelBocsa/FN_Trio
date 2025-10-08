@@ -1,16 +1,14 @@
 // service layer (business logic)
 package com.example.demo.user;
 
-import com.example.demo.player.Player;
-import com.example.demo.player.PlayerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -21,32 +19,31 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    //get all users
-    public List<User> getUsers(){
-        return userRepository.findAll();
-    }
 
-    public List<User> getUserById(String userId){
-        boolean exists = userRepository.existsById(userId);
+    public ResponseEntity<UserDTO> getUserByUUID(String uuid){
+        boolean exists = userRepository.existsById(uuid);
 
         if(!exists){
-            throw new IllegalStateException("User with id " +userId+ " doesn't exist");
+            throw new IllegalStateException("User with id " +uuid+ " doesn't exist");
         }else{
-            return userRepository.findAllById(Collections.singleton(userId));
+            return userRepository.findById(uuid)
+                    .map(user -> ResponseEntity.ok(new UserDTO(user)))
+                    .orElse(ResponseEntity.notFound().build());
         }
+
     }
 
     @Transactional
-    public void updateTrio(String userId, String player1, String player2, String player3){
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("user with id" + userId+ " doesn't exist"));
+    public void updateTrio(String uuid, String player1, String player2, String player3){
+        User user = userRepository.findById(uuid).orElseThrow(() -> new IllegalStateException("User with id " + uuid+ " doesn't exist"));
 
-        if(player1 != null){
+        if(player1 != null && !player1.equals(user.getPlayer2()) && !player1.equals(user.getPlayer3())){
             user.setPlayer1("null".equals(player1) ? null : player1);
         }
-        if(player2 != null ){
+        if(player2 != null && !player2.equals(user.getPlayer1()) && !player2.equals(user.getPlayer3())){
             user.setPlayer2("null".equals(player2) ? null : player2);
         }
-        if(player3 != null ){
+        if(player3 != null && !player3.equals(user.getPlayer1()) && !player3.equals(user.getPlayer2())){
             user.setPlayer3("null".equals(player3) ? null : player3);
         }
 
@@ -54,12 +51,13 @@ public class UserService {
         // && user.getPlayer1() != user.getPlayer2() && user.getPlayer1() != user.getPlayer3()
     }
 
-    public void deleteUser(String userId) {
-        boolean exists = userRepository.existsById(userId);
-        if(!exists){
-            throw new IllegalStateException("User with id " +userId+ " doesn't exist");
+    @Transactional
+    public void updateGeminiRequests(String uuid){
+        User user = userRepository.findById(uuid).orElseThrow(() -> new IllegalStateException("User with id " + uuid+ " doesn't exist"));
+        int req = user.getRequests();
+        if(req > 0){
+            user.setRequests(req-1);
         }
-        userRepository.deleteById(userId);
     }
 
 

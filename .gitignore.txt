@@ -1,0 +1,19 @@
+**/.env
+
+# Node.js related
+frontend/node_modules/
+frontend/.next/
+frontend/build/
+frontend/dist/
+
+# Java related
+demo/target/
+
+# IDE / OS clutter
+*.iml
+.idea/
+.vscode/
+.DS_Store
+
+# Logs
+*.log

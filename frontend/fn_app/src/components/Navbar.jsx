@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import userSettings from "./UserSettings";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-
-// http://localhost:8080/logout
+import api from "../api/axios";
 
 function userSettings() {
   return (
@@ -18,25 +16,10 @@ function userSettings() {
     </Popover>
   );
 }
-const deleteAccount = async (id) => {
-  //   try {
-  //   await axios.delete(
-  //     `http://localhost:8080/api/v1/user/${
-  //       userInfo.id
-  //     }?player${index}=${null}`,
-  //     {},
-  //     { withCredentials: true }
-  //   ).then(() => navigate("/"));
 
-  // } catch (error) {
-  //   console.error("Error removing player:", error);
-  // }
-  console.log("test");
-};
-
-const Navbar = ({ name, email, picture, userId }) => {
+const Navbar = ({ username, name, email, picture }) => {
   return (
-    <div className="flex justify-between p-12 ">
+    <div className="flex justify-between p-10 z-10">
       <div className="flex justify-between w-full items-center">
         <div className="flex gap-12">
           <div>
@@ -48,10 +31,10 @@ const Navbar = ({ name, email, picture, userId }) => {
         </div>
 
         {name || email || picture ? (
-          <div className="flex items-center gap-4 ">
+          <div className="flex items-center gap-4 z-10 ">
             {picture && (
               <Popover>
-                <PopoverButton>
+                <PopoverButton id="button1">
                   <img
                     src={picture}
                     alt="User Avatar"
@@ -61,7 +44,7 @@ const Navbar = ({ name, email, picture, userId }) => {
                 <PopoverPanel
                   transition
                   anchor="bottom"
-                  className="divide-y divide-white/5 rounded-xl bg-white/5 text-sm/6 transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0"
+                  className="divide-y divide-white/5 rounded-xl bg-white/5 text-sm/6 transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0 z-10"
                 >
                   <div className="p-3">
                     <Link
@@ -69,31 +52,24 @@ const Navbar = ({ name, email, picture, userId }) => {
                       href="#"
                     >
                       <p className="font-semibold text-white">Username</p>
-                      <p className="text-white/50">{name}</p>
+                      <p className="text-white/50">{username}</p>
                     </Link>
                     <Link
                       className="block rounded-lg py-2 px-3 transition hover:bg-white/5"
-                      href="#"
+                      href="https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash"
+                      target="_blank"
                     >
-                      <p className="font-semibold text-white">Name</p>
-                      <p className="text-white/50">{name}</p>
+                      <p className="font-semibold text-white">Google gemini</p>
+                      <p className="text-white/50">Gemini-2.5-flash</p>
                     </Link>
                   </div>
                   <div className="p-3">
                     <Link
                       className="block rounded-lg py-2 px-3 transition hover:bg-white/5"
-                      to={"http://localhost:8080/logout"}
+                      to={`${api.defaults.baseURL}/logout`}
                     >
                       <p className="font-semibold text-white">Logout</p>
                     </Link>
-                  </div>
-                  <div className="p-3">
-                    <div
-                      className="block rounded-lg py-2 px-3 transition hover:bg-white/5 text-red-400 hover:text-red-400 lg:text-white cursor-pointer"
-                      onClick={() => deleteAccount(userId)}
-                    >
-                      <p className="font-semibold ">Delete Account</p>
-                    </div>
                   </div>
                 </PopoverPanel>
               </Popover>

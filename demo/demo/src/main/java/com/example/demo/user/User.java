@@ -1,5 +1,6 @@
 package com.example.demo.user;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -9,37 +10,49 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user_data")
+@JsonPropertyOrder({"uuid","providerId","username","name","player1","player2","player3", "requests"})
 public class User {
 
     @Id
-    @Column(name = "user_id", unique = true)
-    private String user_id;
+    @Column(name = "uuid", unique = true)
+    private String uuid;
+    @Column(name = "provider_id", unique = true)
+    private String providerId;
     private String username;
     private String name;
     private String player1;
     private String player2;
     private String player3;
+    private Integer requests;
 
     public User(){
 
     }
 
-    public User(String user_id, String username, String name, String player1, String player2, String player3) {
-        this.user_id = user_id;
+    public User(String uuid, String providerId, String username, String name, String player1, String player2, String player3, Integer requests) {
+        this.uuid = uuid;
+        this.providerId = providerId;
         this.username = username;
         this.name = name;
         this.player1 = player1;
         this.player2 = player2;
         this.player3 = player3;
+        this.requests = requests;
     }
 
-    public String getUserId() {
-        return user_id;
+    public String getUserUUID() {
+        return uuid;
     }
 
-    public void setUserId(String userId) {
-        this.user_id = userId;
+    public void setUserUUID(String uuid) {
+        this.uuid = uuid;
     }
+
+    public String getProviderId() {
+        return providerId; }
+
+    public void setProviderId( String providerId) {
+        this.providerId = providerId; }
 
     public String getUserName() {
         return username;
@@ -79,6 +92,14 @@ public class User {
 
     public void setPlayer3(String player3) {
         this.player3 = player3;
+    }
+
+    public Integer getRequests(){
+        return requests;
+    }
+
+    public void setRequests(Integer requests){
+        this.requests = requests;
     }
 
     //     Run time polymorphism(dynamic polymorphism)

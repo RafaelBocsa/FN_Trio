@@ -1,13 +1,6 @@
-import React from "react";
+import { loginWithGoogle, loginWithGithub } from "../api/auth";
 
 const Landing = () => {
-  const googleLogin = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
-  };
-  const githubLogin = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/github";
-  };
-
   return (
     <div className=" flex flex-col min-h-screen justify-center items-center white ">
       <div className="border-2 border-[#202022] p-6  rounded-md">
@@ -18,7 +11,8 @@ const Landing = () => {
 
           <div className=" flex flex-col w-full gap-4">
             <button
-              onClick={googleLogin}
+              id="button1"
+              onClick={loginWithGoogle}
               className="flex justify-center items-center gap-2 bg-[#1a1a1a]"
             >
               <svg
@@ -59,7 +53,8 @@ const Landing = () => {
               Login with Google
             </button>
             <button
-              onClick={githubLogin}
+              id="button1"
+              onClick={loginWithGithub}
               className="  flex justify-center items-center gap-2 bg-[#1a1a1a]"
             >
               <svg

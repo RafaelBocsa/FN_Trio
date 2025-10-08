@@ -21,34 +21,15 @@ public class PlayerController {
     @GetMapping // rest endpoint, get request aka get something from our server
     public List<Player> getPlayers(
             //getting players by name, if not then simply getting all players in db
+            @RequestParam(value = "uuid" , required = false) String uuid,
             @RequestParam(required = false) String name
     ){
         if(name != null){
             return playerService.getPlayerByName(name);
         }else{
-            return playerService.getPlayers();
+            return playerService.getPlayers(uuid);
         }
 
     }
-
-    @PostMapping
-    public void registerNewPlayer(@RequestBody Player player){//take player from CLIENT, map to this player
-        playerService.addNewPlayer(player);
-    }
-
-//    @DeleteMapping(path = "{playerId}")
-//    public void deletePlayer(@PathVariable("playerId") Long playerId){
-//        //can enforce id is not null
-//        playerService.deletePlayer(playerId);
-//    }
-
-    //updating player name based on playerId
-//    @PutMapping(path = "{playerId}")
-//    public void updatePlayer(
-//            @PathVariable("playerId") Long playerId,
-//            @RequestParam(required = false) String name
-//    ){
-//        playerService.updatePlayer(playerId, name);
-//    }
 
 }
