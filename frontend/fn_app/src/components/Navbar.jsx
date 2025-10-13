@@ -56,7 +56,7 @@ const Navbar = ({ username, name, email, picture }) => {
                     </Link>
                     <Link
                       className="block rounded-lg py-2 px-3 transition hover:bg-white/5"
-                      href="https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash"
+                      to="https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash"
                       target="_blank"
                     >
                       <p className="font-semibold text-white">Google gemini</p>
