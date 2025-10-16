@@ -51,14 +51,5 @@ public class UserService {
         // && user.getPlayer1() != user.getPlayer2() && user.getPlayer1() != user.getPlayer3()
     }
 
-    @Transactional
-    public void updateGeminiRequests(String uuid){
-        User user = userRepository.findById(uuid).orElseThrow(() -> new IllegalStateException("User with id " + uuid+ " doesn't exist"));
-        int req = user.getRequests();
-        if(req > 0){
-            user.setRequests(req-1);
-        }
-    }
-
 
 }

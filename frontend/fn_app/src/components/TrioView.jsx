@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axios";
 import { UserContext } from "./Dashboard";
@@ -14,6 +14,7 @@ const TrioView = () => {
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [geminiResponse, setGeminiResponse] = useState(null);
   const [loading, setLoading] = useState(false);
+  const responseRef = useRef(null);
 
   const getUserData = async () => {
     try {
@@ -57,6 +58,15 @@ const TrioView = () => {
   useEffect(() => {
     getUserData();
   }, []);
+
+  useEffect(() => {
+    if (geminiResponse && responseRef.current) {
+      responseRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [geminiResponse]);
 
   useEffect(() => {
     if (!user) return;
@@ -219,7 +229,10 @@ const TrioView = () => {
             )}
 
             {geminiResponse != null && (
-              <div className=" w-80 sm:w-150 md:w-200 lg:w-300 py-20 prose prose-invert">
+              <div
+                ref={responseRef}
+                className=" w-80 sm:w-150 md:w-200 lg:w-300 py-20 prose prose-invert"
+              >
                 <img
                   src="/Gemini-Symbol.png"
                   alt="Gemini"

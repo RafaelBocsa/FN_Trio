@@ -111,6 +111,7 @@ public class User {
                 ", player1 =" + player1 + '\'' +
                 ", player2 ='" + player2 + '\'' +
                 ", player3 ='" + player3 + '\'' +
+                ", requests ='" + requests + '\'' +
                 '}';
     }
 }
