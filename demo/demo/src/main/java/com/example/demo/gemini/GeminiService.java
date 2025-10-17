@@ -30,13 +30,11 @@ public class GeminiService {
     public String askGemini(String uuid, String question) {
         User user = userRepository.findById(uuid).orElseThrow(() -> new IllegalStateException("User with id " + uuid+ " doesn't exist"));
         int req = user.getRequests();
-        System.out.println(req + " Initially");
         String response;
         if(req > 0){
             int newReq = req-1;
             user.setRequests(newReq);
             userRepository.save(user);
-            System.out.println(user);
             Map<String, Object> requestBody = Map.of(
                     "contents", new Object[]{
                             Map.of("parts", new Object[]{

@@ -11,10 +11,8 @@ const Dashboard = () => {
 
   const getUserInfo = async () => {
     try {
-      console.log("hi");
       const response = await api.get(`/user-info`);
       setUserInfo(response.data);
-      console.log("here", response.data);
     } catch (error) {
       console.error("ERROR ", error);
       return null;

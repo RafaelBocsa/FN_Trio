@@ -16,7 +16,6 @@ const PlayerList = () => {
       const response = await api.get(
         `${api.defaults.baseURL}/api/v1/player?uuid=` + userInfo.uuid
       );
-      console.log(response.data);
       setPlayers(response.data);
     } catch (error) {
       console.error("Error fetching players:", error);
