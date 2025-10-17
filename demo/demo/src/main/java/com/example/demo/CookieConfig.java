@@ -15,6 +15,6 @@ public class CookieConfig {
         if ("prod".equalsIgnoreCase(activeProfile)) {
             return CookieSameSiteSupplier.ofNone();
         }
-        return CookieSameSiteSupplier.ofLax(); // works locally without HTTPS
+        return CookieSameSiteSupplier.ofLax();
     }
 }

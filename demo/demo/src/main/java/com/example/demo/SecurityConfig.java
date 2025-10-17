@@ -4,6 +4,7 @@ import com.example.demo.userInfo.CustomOAuth2UserService;
 import com.example.demo.userInfo.CustomOidcUserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Value("${frontend.url}")
+    private String frontendUrl;
 
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService; // Ensure this is injected
@@ -38,7 +42,7 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfo -> userInfo
                                 .oidcUserService(customOidcUserService))
                         .successHandler((request, response, authentication) -> {
-                            response.sendRedirect("http://localhost:5173/dashboard");
+                            response.sendRedirect(frontendUrl+"/dashboard");
                         })
                 ).exceptionHandling(ex ->
                         ex.authenticationEntryPoint((request, response, authException) -> {
@@ -47,7 +51,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("http://localhost:5173/")
+                        .logoutSuccessUrl(frontendUrl)
                 );
 
         return http.build();
