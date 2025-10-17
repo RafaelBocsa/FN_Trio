@@ -11,10 +11,10 @@ const Dashboard = () => {
 
   const getUserInfo = async () => {
     try {
-      const response = await api.get(
-        `${import.meta.env.VITE_API_URL}/user-info`
-      );
+      console.log("hi");
+      const response = await api.get(`/user-info`);
       setUserInfo(response.data);
+      console.log("here", response.data);
     } catch (error) {
       console.error("ERROR ", error);
       return null;

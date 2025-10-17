@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults()) // <--- IMPORTANT: enable CORS support
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/**").authenticated()
+                        .requestMatchers("/api/v1/**", "/user-info").authenticated()
                         .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
