@@ -13,7 +13,8 @@ const TrioView = () => {
   const [totalPr, setTotalPr] = useState(0);
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [geminiResponse, setGeminiResponse] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loadingGemini, setLoadingGemini] = useState(false);
+  const [loadingPlayer, setLoadingPlayer] = useState(false);
   const responseRef = useRef(null);
 
   const getUserData = async () => {
@@ -72,30 +73,37 @@ const TrioView = () => {
     if (!user) return;
 
     const loadPlayers = async () => {
-      const names = [user.player1, user.player2, user.player3];
-      const promises = names.map((name) =>
-        name ? getPlayerData(name) : Promise.resolve(null)
-      );
-      const results = await Promise.all(promises);
-      setPlayerData(results);
+      setLoadingPlayer(true);
+      try {
+        const names = [user.player1, user.player2, user.player3];
+        const promises = names.map((name) =>
+          name ? getPlayerData(name) : Promise.resolve(null)
+        );
+        const results = await Promise.all(promises);
+        setPlayerData(results);
 
-      let totalPr = 0;
-      let totalEarnings = 0;
-      for (let i = 0; i < 3; i++) {
-        if (results[i]) {
-          totalPr += results[i][0].pr_points;
-          totalEarnings += results[i][0].earnings;
+        let totalPr = 0;
+        let totalEarnings = 0;
+        for (let i = 0; i < 3; i++) {
+          if (results[i]) {
+            totalPr += results[i][0].pr_points;
+            totalEarnings += results[i][0].earnings;
+          }
         }
+        setTotalPr(totalPr);
+        setTotalEarnings(totalEarnings);
+      } catch (error) {
+        console.error("ERROR ", error);
+      } finally {
+        setLoadingPlayer(false);
       }
-      setTotalPr(totalPr);
-      setTotalEarnings(totalEarnings);
     };
 
     loadPlayers();
   }, [user]);
 
   const askGemini = async (p1, p2, p3) => {
-    setLoading(true);
+    setLoadingGemini(true);
     setGeminiResponse(null);
     try {
       const prompt =
@@ -119,7 +127,7 @@ const TrioView = () => {
     } catch (error) {
       console.error("ERROR ", error);
     } finally {
-      setLoading(false);
+      setLoadingGemini(false);
     }
   };
 
@@ -133,7 +141,7 @@ const TrioView = () => {
               key={index}
               className="border rounded  w-[20rem] h-[30rem] text-center"
             >
-              {player ? (
+              {player && !loadingPlayer ? (
                 <div className=" relative h-full w-full ">
                   <div className="absolute inset-0 bg-[url(/llama.jpeg)]  text-white  bg-no-repeat bg-cover opacity-50"></div>
                   <div className="relative z-10 h-full backdrop-blur-sm">
@@ -179,7 +187,7 @@ const TrioView = () => {
                     </div>
                   </div>
                 </div>
-              ) : (
+              ) : !loadingPlayer ? (
                 <Link to={`/dashboard/players?slot=${index + 1}`}>
                   <div className="relative h-full group ">
                     <div className="absolute inset-0 bg-[url(/llama.jpeg)] border text-white rounded items-center justify-center bg-no-repeat bg-cover opacity-50 lg:opacity-0 group-hover:opacity-50 transition-opacity duration-400 "></div>
@@ -188,6 +196,13 @@ const TrioView = () => {
                     </div>
                   </div>
                 </Link>
+              ) : (
+                <div className="relative h-full group ">
+                  <div className="absolute inset-0 bg-[url(/llama.jpeg)] border text-white rounded items-center justify-center bg-no-repeat bg-cover opacity-50 lg:opacity-0 group-hover:opacity-50 transition-opacity duration-400 "></div>
+                  <div className="flex relative z-10 h-full items-center justify-center text-white">
+                    Loading
+                  </div>
+                </div>
               )}
             </div>
           ))}
@@ -199,7 +214,7 @@ const TrioView = () => {
 
         {!playerData.includes(null) && (
           <div className="flex flex-col justify-center items-center ">
-            {user.requests >= 1 && !loading ? (
+            {user.requests >= 1 && !loadingGemini ? (
               <Button
                 className="hover:cursor-pointer rounded-lg border border-white  px-5 py-2 text-lg font-medium font-inherit flex flex-row  justify-center items-center animate-pulse"
                 onClick={() =>
@@ -213,7 +228,7 @@ const TrioView = () => {
                 Ask Gemini
                 <img src="/Gemini-Symbol.png" alt="Gemini" className="h-7 " />
               </Button>
-            ) : loading ? (
+            ) : loadingGemini ? (
               <div className="flex text-xl">
                 <img
                   src="/Gemini-Symbol.png"
