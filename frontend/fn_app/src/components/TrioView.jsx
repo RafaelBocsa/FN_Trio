@@ -14,7 +14,6 @@ const TrioView = () => {
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [geminiResponse, setGeminiResponse] = useState(null);
   const [loadingGemini, setLoadingGemini] = useState(false);
-  const [loadingPlayer, setLoadingPlayer] = useState(false);
   const responseRef = useRef(null);
 
   const getUserData = async () => {
@@ -73,7 +72,6 @@ const TrioView = () => {
     if (!user) return;
 
     const loadPlayers = async () => {
-      setLoadingPlayer(true);
       try {
         const names = [user.player1, user.player2, user.player3];
         const promises = names.map((name) =>
@@ -95,7 +93,6 @@ const TrioView = () => {
       } catch (error) {
         console.error("ERROR ", error);
       } finally {
-        setLoadingPlayer(false);
       }
     };
 
@@ -141,7 +138,7 @@ const TrioView = () => {
               key={index}
               className="border rounded  w-[20rem] h-[30rem] text-center"
             >
-              {player && !loadingPlayer ? (
+              {player ? (
                 <div className=" relative h-full w-full ">
                   <div className="absolute inset-0 bg-[url(/llama.jpeg)]  text-white  bg-no-repeat bg-cover opacity-50"></div>
                   <div className="relative z-10 h-full backdrop-blur-sm">
@@ -187,7 +184,7 @@ const TrioView = () => {
                     </div>
                   </div>
                 </div>
-              ) : !loadingPlayer ? (
+              ) : (
                 <Link to={`/dashboard/players?slot=${index + 1}`}>
                   <div className="relative h-full group ">
                     <div className="absolute inset-0 bg-[url(/llama.jpeg)] border text-white rounded items-center justify-center bg-no-repeat bg-cover opacity-50 lg:opacity-0 group-hover:opacity-50 transition-opacity duration-400 "></div>
@@ -196,13 +193,6 @@ const TrioView = () => {
                     </div>
                   </div>
                 </Link>
-              ) : (
-                <div className="relative h-full group ">
-                  <div className="absolute inset-0 bg-[url(/llama.jpeg)] border text-white rounded items-center justify-center bg-no-repeat bg-cover opacity-50 lg:opacity-0 group-hover:opacity-50 transition-opacity duration-400 "></div>
-                  <div className="flex relative z-10 h-full items-center justify-center text-white">
-                    Loading
-                  </div>
-                </div>
               )}
             </div>
           ))}
