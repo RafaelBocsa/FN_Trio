@@ -6,7 +6,9 @@ const Landing = () => {
       <div className="border-2 border-[#202022] p-6  rounded-md">
         <div className=" flex flex-col items-center">
           <img src="/FNCSWhite.png" className="w-26 p-2" />
-          <h2 className="text-4xl p-2">Welcome to FNCS Trio Builder</h2>
+          <h2 className="text-xl sm:text-4xl p-2">
+            Welcome to FNCS Trio Builder
+          </h2>
           <h2 className="py-4 ">Start building your dream FNCS trio</h2>
 
           <div className=" flex flex-col w-full gap-4">
