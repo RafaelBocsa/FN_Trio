@@ -114,7 +114,9 @@ const TrioView = () => {
         "-" +
         p3 +
         "\n" +
-        "(It's not a problem if you can't find anything about a player)";
+        "(It's not a problem if you can't find anything about a player)." +
+        "--" +
+        "Now write a small 1-3 sentances on the possible synergy, chemestry and overall evaluation of the players together as a team for Trios FNCS.";
 
       if (user.requests > 0) {
         const response = await fetchGeminiResponse(prompt, userInfo.uuid);
