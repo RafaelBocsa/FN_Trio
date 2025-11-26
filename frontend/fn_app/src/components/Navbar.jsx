@@ -3,20 +3,6 @@ import { Link } from "react-router-dom";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import api from "../api/axios";
 
-function userSettings() {
-  return (
-    <Popover className="relative">
-      <PopoverButton>Solutions</PopoverButton>
-      <PopoverPanel anchor="bottom" className="flex flex-col">
-        <Link href="/analytics">Analytics</Link>
-        <Link href="/engagement">Engagement</Link>
-        <Link href="/security">Security</Link>
-        <Link href="/integrations">Integrations</Link>
-      </PopoverPanel>
-    </Popover>
-  );
-}
-
 const Navbar = ({ username, name, email, picture }) => {
   return (
     <div className="flex justify-between p-10 z-10">
@@ -44,7 +30,8 @@ const Navbar = ({ username, name, email, picture }) => {
                 <PopoverPanel
                   transition
                   anchor="bottom"
-                  className="divide-y divide-white/5 rounded-xl bg-white/5 text-sm/6 transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0 z-10"
+                  className="divide-y divide-white/5 rounded-xl bg-[#161617]  text-sm/6 transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] 
+                  data-[closed]:-translate-y-1 data-[closed]:opacity-0 z-10"
                 >
                   <div className="p-3">
                     <Link
