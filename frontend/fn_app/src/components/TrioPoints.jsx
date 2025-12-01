@@ -28,8 +28,11 @@ const TrioPoints = ({ p1, p2, p3 }) => {
 
   return (
     <div>
-      <div>Total PR Points: {"$" + totals.totalPR.toLocaleString("en-US")}</div>
-      <div> Total Earnings: {totals.totalEarnings.toLocaleString("en-US")}</div>
+      <div>Total PR Points: {totals.totalPR.toLocaleString("en-US")}</div>
+      <div>
+        {" "}
+        Total Earnings: {"$ " + totals.totalEarnings.toLocaleString("en-US")}
+      </div>
     </div>
   );
 };
