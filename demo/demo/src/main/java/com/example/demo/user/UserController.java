@@ -20,12 +20,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping // rest endpoint, get request aka get something from our server
-    public ResponseEntity<UserDTO> getUser(
-            //getting user by id, if not then simply getting all users in db
-            @RequestParam(required = false) String uuid
-    ){
-        return userService.getUserByUUID(uuid);
+    @GetMapping
+    public ResponseEntity<UserDTO> getUser(@RequestParam String uuid) {
+        UserDTO dto = userService.getUserByUUID(uuid);
+        return ResponseEntity.ok(dto);
     }
 
     @PutMapping(path = "{uuid}")

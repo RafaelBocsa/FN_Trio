@@ -20,17 +20,13 @@ public class UserService {
     }
 
 
-    public ResponseEntity<UserDTO> getUserByUUID(String uuid){
-        boolean exists = userRepository.existsById(uuid);
+    public UserDTO getUserByUUID(String uuid) {
+        User user = userRepository.findById(uuid)
+                .orElseThrow(() -> new IllegalStateException(
+                        "User with id " + uuid + " doesn't exist"
+                ));
 
-        if(!exists){
-            throw new IllegalStateException("User with id " +uuid+ " doesn't exist");
-        }else{
-            return userRepository.findById(uuid)
-                    .map(user -> ResponseEntity.ok(new UserDTO(user)))
-                    .orElse(ResponseEntity.notFound().build());
-        }
-
+        return new UserDTO(user);
     }
 
     @Transactional
