@@ -47,6 +47,8 @@ public class UserService {
             user.setPlayer3("null".equals(player3) ? null : player3);
         }
 
+        userRepository.save(user);
+
         //add only if a player isn't already on a users roster
         // && user.getPlayer1() != user.getPlayer2() && user.getPlayer1() != user.getPlayer3()
     }

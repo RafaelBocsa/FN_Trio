@@ -6,7 +6,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestTemplate;
+//import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.http.*;
 
 import java.util.Map;
 
@@ -19,12 +21,14 @@ public class GeminiService {
     @Value("${gemini.api.key}")
     private String geminiApiKey ;
 
-    private final WebClient webClient;
+    private final RestTemplate restTemplate = new RestTemplate();
+//    private final WebClient webClient;
     private final UserRepository userRepository;
 
+
     @Autowired
-    public GeminiService(WebClient.Builder webClient, UserRepository userRepository){
-        this.webClient = webClient.build();
+    public GeminiService( UserRepository userRepository){ //WebClient.Builder webClient
+//        this.webClient = webClient.build();
         this.userRepository = userRepository;
     }
 
@@ -57,12 +61,18 @@ public class GeminiService {
                 }
         );
 
-        return webClient.post()
-                .uri(geminiApiUrl + geminiApiKey)
-                .header("Content-Type", "application/json")
-                .bodyValue(requestBody)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                geminiApiUrl + geminiApiKey,
+                HttpMethod.POST,
+                requestEntity,
+                String.class
+        );
+
+        return response.getBody();
     }
 }
