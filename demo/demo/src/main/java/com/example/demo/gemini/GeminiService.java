@@ -46,10 +46,11 @@ public class GeminiService {
         int req = user.getRequests();
         if (req <= 0) {
             throw new IllegalStateException("No remaining requests.");
+        }else{
+            user.setRequests(req - 1);
+            userRepository.save(user);
         }
 
-        user.setRequests(req - 1);
-        userRepository.save(user);
     }
 
     private String callGemini(String question) {

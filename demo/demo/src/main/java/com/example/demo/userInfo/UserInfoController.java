@@ -22,36 +22,26 @@ public class UserInfoController {
     public Map<String, Object> user(
             @AuthenticationPrincipal OAuth2User principal){
         Map<String, Object> attributes = principal.getAttributes();
-        Map<String, Object> filtered = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
 
-        String providerId;
-        if(principal.getAttribute("sub") != null){
-             providerId = principal.getAttribute("sub");
-        }else{
-            int id = principal.getAttribute("id");
-             providerId = Integer.toString(id);
-        }
+        String providerId = attributes.containsKey("sub")
+                ? attributes.get("sub").toString()
+                : attributes.get("id").toString();
 
         User user = userRepository.findByProviderId(providerId);
 
-        if (attributes.containsKey("avatar_url")) {
-            filtered.put("username", user.getUserName());
-            filtered.put("name", attributes.get("name"));
-            filtered.put("email", attributes.get("email"));
-            filtered.put("picture", attributes.get("avatar_url"));
-            filtered.put("uuid", user.getUserUUID());
-            filtered.put("requests", user.getRequests());
-        }
-        if (attributes.containsKey("sub")) {
-            filtered.put("username", user.getUserName());
-            filtered.put("name", attributes.get("name"));
-            filtered.put("email", attributes.get("email"));
-            filtered.put("picture", attributes.get("picture"));
-            filtered.put("uuid", user.getUserUUID());
-            filtered.put("requests", user.getRequests());
-        }
+        String pfp = attributes.containsKey("avatar_url")
+                ? attributes.get("avatar_url").toString()
+                : attributes.get("picture").toString();
 
-        return filtered;
+        response.put("username", user.getUserName());
+        response.put("name", attributes.get("name"));
+        response.put("email", attributes.get("email"));
+        response.put("picture", pfp);
+        response.put("uuid", user.getUserUUID());
+        response.put("requests", user.getRequests());
+
+        return response;
     }
 
 

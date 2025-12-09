@@ -42,13 +42,13 @@ public class PlayerService {
     }
 
     //can do more validations here(check if email is valid or not)
-    public void addNewPlayer(Player player) {
-        Optional<Player> playerOptional =  playerRepository.findPlayerByName(player.getPlayer_name());
-        if(playerOptional.isPresent()){
-            throw new IllegalStateException("name taken");//error message for internal server error
-        }
-        playerRepository.save(player);
-    }
+//    public void addNewPlayer(Player player) {
+//        Optional<Player> playerOptional =  playerRepository.findPlayerByName(player.getPlayer_name());
+//        if(playerOptional.isPresent()){
+//            throw new IllegalStateException("name taken");//error message for internal server error
+//        }
+//        playerRepository.save(player);
+//    }
 
     //delete player by player id
 //    public void deletePlayer(Long playerId) {
