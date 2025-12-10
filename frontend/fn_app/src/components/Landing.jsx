@@ -5,7 +5,7 @@ const Landing = () => {
     <div className=" flex flex-col min-h-screen justify-center items-center white ">
       <div className="border-2 border-[#202022] p-6  rounded-md">
         <div className=" flex flex-col items-center">
-          <img src="/FNCSWhite.png" className="w-26 p-2" />
+          <img src="/favicon.ico" className="w-26 p-2" />
           <h2 className="text-xl sm:text-4xl p-2">
             Welcome to FNCS Trio Builder
           </h2>

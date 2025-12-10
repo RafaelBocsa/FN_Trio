@@ -10,7 +10,7 @@ const Navbar = ({ username, name, email, picture }) => {
         <div className="flex gap-12">
           <div>
             <div className="flex items-center hover:opacity-50 font-medium">
-              <img src="/FNCSWhite.png" alt="" className="h-14" />
+              <img src="/favicon.ico" alt="" className="h-14" />
               <h2 className="hidden sm:block text-xl ">Trio Zone</h2>
             </div>
           </div>
